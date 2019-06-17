@@ -6,12 +6,11 @@ body {
 
 #container {
 	background: #eeeff1;
-	width:90%;
+	width:80%;
 	max-width: 900px;
 	margin: auto;
 	margin-bottom: 100px;
-	padding-top: 20px;
-	padding-bottom: 40px;
+    padding: 30px 30px 50px 30px;
 
 }
 

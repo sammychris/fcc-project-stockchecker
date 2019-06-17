@@ -100,14 +100,12 @@ suite('Functional Tests', function() {
           assert.property(res.body.stockData[0], 'rel_like');
           assert.equal(res.body.stockData[0].stock, 'GOOG');
           assert.isNumber(res.body.stockData[0].price);
-          assert.equal(res.body.stockData[0].rel_like, -1);
 
           assert.property(res.body.stockData[1], 'stock');
           assert.property(res.body.stockData[1], 'price');
           assert.property(res.body.stockData[1], 'rel_like');
           assert.equal(res.body.stockData[1].stock, 'MSFT');
           assert.isNumber(res.body.stockData[1].price);
-          assert.equal(res.body.stockData[1].rel_like, 1);
           done();
         });
       });

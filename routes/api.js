@@ -42,13 +42,15 @@ module.exports = function (app) {
     	let query = req.query; 
 		if(!ipAddr.includes(req.ip)){
 			ipAddr.push(req.ip);
+			console.log(ipAddr);
 			num++;
 		}
     	repeatFunc(query.stock, []).then(arr => {
     		if(arr.length === 1){
     			if(query.like) arr[0].like = num;
     			res.json({'stockData': arr[0]});
-    		}else {
+    		}
+    		else {
     			if(query.like){
     				arr[0].rel_like = -num; 
     				arr[1].rel_like = num;
@@ -56,19 +58,5 @@ module.exports = function (app) {
     			res.json({'stockData': arr});
     		}
     	});
-    	// getApi(query)
-		  	// .then(result => {
-		  	// 	console.log(result.data)
-		  	// 	init = result.data;
-		  	// 	res.json({stock: result.data.symbol})
-		  	// })
-		  	//.catch(err => console.log(err.response.data))
-    });
-
- //  request('https://cloud.iexapis.com/stable/stock/goog/quote?token=pk_51011e5f642e439bbab503ba7d449cfb', (error, response, body) => {
- //    if(error) {
- //        return console.log('This is an error');
- //    }
- //    console.log(body);
-	// });   
+    });  
 };

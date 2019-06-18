@@ -3,9 +3,9 @@
   <head>
     <title>Welcome to HyperDev!</title>
     <meta name="description" content="A cool thing made with HyperDev">
-    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon-app.ico" type="image/x-icon">
+    <!-- <link id="favicon" rel="icon" href="https://hyperdev.com/favicon-app.ico" type="image/x-icon"> -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./public/style.css">
   </head>
@@ -16,25 +16,25 @@
       </h1>
     </header>
     <div id="container">
-      <div id='testui'>
+      <div id="testui">
         <h2 style="text-align: left">Front-End:</h2>
         <h3 class="form-title">Get single price and total likes</h3>
         <form id="testForm2" class="border">
-          <input class="text-input" type="text" name="stock" placeholder="goog" required=''>
+          <input class="text-input" type="text" name="stock" placeholder="goog" required="">
           <div><input type="checkbox" name="like" value=true> Like?</div><br>
           <button type="submit">Get Price!</button>
         </form>
         <h3 class="form-title">Compare and get relative likes</h3>
         <form id="testForm" class="border">
-          <input class="text-input" type="text" name="stock" placeholder="goog" required=''>
-          <input class="text-input" type="text" name="stock" placeholder="msft" required=''>
+          <input class="text-input" type="text" name="stock" placeholder="goog" required="">
+          <input class="text-input" type="text" name="stock" placeholder="msft" required="">
           <div><input type="checkbox" name="like" value=true> Like both?</div><br>
           <button type="submit">Get Price!</button>
         </form>
-        <center><code id='jsonResult'></code></center>
+        <center><code id="jsonResult"></code></center>
       </div>
-      <hr style='margin: 50px'>  
-      <div id='userstories'>
+      <hr style="margin: 50px">  
+      <div id="userstories">
         <h3>User Stories</h3>
         <ol>
           <li>Set the content security policies to only allow loading of scripts and css from your server.</li>
@@ -55,35 +55,27 @@
         <code>{"stockData":[{"stock":"MSFT","price":"62.30","rel_likes":-1},{"stock":"GOOG","price":"786.90","rel_likes":1}]}</code>
       </div>
      </div>
-    <!-- Your web-app is https, so your scripts need to be too -->
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
-            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
-            crossorigin="anonymous"></script>
-    <script>
-      $(function() {
-        $('#testForm').submit(function(e) {
-          $.ajax({
-            url: '/api/stock-prices',
-            type: 'get',
-            data: $('#testForm').serialize(),
-            success: function(data) {
-              $('#jsonResult').text(JSON.stringify(data));
-            }
-          });
+    <script> 
+        const jsonResult = document.getElementById('jsonResult');
+        document.getElementById('testForm2').onsubmit = handler;
+        document.getElementById('testForm').onsubmit = handler;
+        
+        function handler(e) {
           e.preventDefault();
-        });
-        $('#testForm2').submit(function(e) {
-          $.ajax({
-            url: '/api/stock-prices',
-            type: 'get',
-            data: $('#testForm2').serialize(),
-            success: function(data) {
-              $('#jsonResult').text(JSON.stringify(data));
-            }
-          });
-          e.preventDefault();
-        });
-      });
+          let tag = this.elements['stock'];
+          let like = this.elements['like'];
+          
+          let checkLike = like.checked? '&like='+like.value: '';
+          let query = tag.length?
+              `stock=${tag[0].value}&stock=${tag[1].value}${checkLike}`: 
+              `stock=${tag.value}${checkLike}`;
+          
+          fetch('api/stock-prices?'+query)
+            .then(data => data.json())
+            .then(data => 
+                  jsonResult.innerText = JSON.stringify(data)
+            )
+        }
    </script>
   </body>
 </html>

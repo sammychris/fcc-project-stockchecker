@@ -20,7 +20,6 @@ const getApi = (symbol) => axios.get('https://cloud.iexapis.com/stable/stock/'+s
 let num = 0;
 let ipAddr = [];
 const repeatFunc = (query, arr) => {
-	let d;
 	if(typeof query === 'string') query = [query];
 	if(query.length > 1) {
 		return getApi(query.splice(0, 1)[0]).then(a => {
@@ -42,7 +41,6 @@ module.exports = function (app) {
     	let query = req.query; 
 		if(!ipAddr.includes(req.ip)){
 			ipAddr.push(req.ip);
-			console.log(ipAddr);
 			num++;
 		}
     	repeatFunc(query.stock, []).then(arr => {
@@ -57,6 +55,6 @@ module.exports = function (app) {
     			}
     			res.json({'stockData': arr});
     		}
-    	});
+    	}).catch(err => res.json({message: 'input the right stock name'}));
     });  
 };
